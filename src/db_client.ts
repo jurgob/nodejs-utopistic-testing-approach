@@ -1,4 +1,5 @@
-import {connect, disconnect as mongooseDisconnect, Schema, model} from 'mongoose';
+
+import {MongoClient} from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
 type User= {
@@ -6,28 +7,30 @@ type User= {
   email: string;
 }
 
-const userSchema = new Schema<User>({
-  name: {type: String, required: true},
-  email: {type: String, required: true},
-});
-const User = model<User>('User', userSchema);
-
 
 export async function  createDBClient(){
   const mongoServer = await MongoMemoryServer.create();
-  await connect(mongoServer.getUri(), { dbName: "verifyMASTER" });
+  
+  const mongo_db_name = `db_${Math.random().toString(36).substring(7)}`;
+  const mongo_url = mongoServer.getUri()+`/${mongo_db_name}`
+
+  const db = new MongoClient(mongo_url);
+  const collectionUsers = db.db(mongo_db_name).collection<User>('users');
+
+
 
   
 
   const disconnect = async () => {
-    await mongooseDisconnect();
+    await db.close();
     await mongoServer.stop();
-  
+    
   }
 
   const createUser = async (user:User) => {
-    const userNew = new User(user);
-    return await userNew.save();
+    const {insertedId} = await collectionUsers.insertOne(user);
+    const newUser = await collectionUsers.findOne({_id: insertedId});
+    return newUser;
     
   }
 
@@ -37,12 +40,6 @@ export async function  createDBClient(){
     disconnect,
     createUser
   }
-// (async () => {
-  
 
-//   // your code here
-  
-//   await mongoose.disconnect();
-// })();
 }
 
