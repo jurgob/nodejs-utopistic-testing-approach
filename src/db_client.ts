@@ -19,9 +19,9 @@ export async function  createDBClient(){
 
   
 
-  const disconnect = () => {
-    mongooseDisconnect();
-    mongoServer.stop();
+  const disconnect = async () => {
+    await mongooseDisconnect();
+    await mongoServer.stop();
   
   }
 

@@ -6,6 +6,7 @@ export async function createApp(){
   const app: Express = express();
 
   const dbClient = await createDBClient();
+  // console.log('dbClient', dbClient);
 
   app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -18,12 +19,19 @@ export async function createApp(){
     try{
       const newUser = await dbClient.createUser(req.body);
 
-      res.status(200).json(newUser);
+      res.status(201).json(newUser);
     }catch(e){
       res.status(400).json({error: e as string});
     }
     // dbClient
   });
+
+  app.on('close', () => {
+    console.log('closing app');
+    dbClient.disconnect();
+  })
+
+  
 
   return app
 }
