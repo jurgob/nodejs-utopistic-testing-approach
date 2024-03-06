@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {createMockServer} from './utils.js';
 import axios from 'axios';
-
+import env from '../env.js';
 
 test('endpoint /health', async () => assert.doesNotReject(async () => {
+    console.log('test', env);  
     const {url,close } = await createMockServer();
     const res = await axios({
         baseURL: `${url}`,

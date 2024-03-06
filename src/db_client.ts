@@ -1,7 +1,7 @@
 
 import {MongoClient} from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-
+import env from './env';
 type User= {
   name: string;
   email: string;
@@ -9,6 +9,8 @@ type User= {
 
 
 export async function  createDBClient(){
+
+  // const useMock = env.NODE_ENV === 'test';
   const mongoServer = await MongoMemoryServer.create();
   
   const mongo_db_name = `db_${Math.random().toString(36).substring(7)}`;
