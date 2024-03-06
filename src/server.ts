@@ -6,7 +6,6 @@ export async function createApp(){
   const app: Express = express();
 
   const dbClient = await createDBClient();
-  // console.log('dbClient', dbClient);
 
   app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -27,7 +26,6 @@ export async function createApp(){
   });
 
   app.on('close', () => {
-    console.log('closing app');
     dbClient.disconnect();
   })
 

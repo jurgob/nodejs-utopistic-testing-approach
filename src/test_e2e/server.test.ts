@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
+import {test} from 'node:test';
 import {createMockServer} from './utils.js';
 import axios from 'axios';
 
-assert.doesNotReject(async () => {
+
+test('endpoint /health', async () => assert.doesNotReject(async () => {
     const {url,close } = await createMockServer();
     const res = await axios({
         baseURL: `${url}`,
@@ -11,10 +13,11 @@ assert.doesNotReject(async () => {
     assert.deepStrictEqual(res.status, 200, 'Unexpected status code from GET /health endpoint');
     assert.deepStrictEqual(res.data, {status: 'ok'}, 'Unexpected response from GET /health endpoint');
     close();
-});
+}));
 
 
-assert.doesNotReject(async () => {
+
+test('endpoint /users', async () => assert.doesNotReject(async () => {
     const {url,close } = await createMockServer();
     const res = await axios({
         baseURL: `${url}`,
@@ -35,4 +38,4 @@ assert.doesNotReject(async () => {
     assert.ok(_id, 'Expected _id to be defined');
 
     close();
-});
+}));
