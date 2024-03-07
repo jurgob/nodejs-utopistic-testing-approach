@@ -3,7 +3,7 @@ import {test} from 'node:test';
 import {createMockServer} from './utils.js';
 import axios from 'axios';
 
-test('endpoint /users', async () => assert.doesNotReject(async () => {
+test('smoke create user', async () => assert.doesNotReject(async () => {
     const {url,close } = await createMockServer();
     const res = await axios({
         baseURL: `${url}`,

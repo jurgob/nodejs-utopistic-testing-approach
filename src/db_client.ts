@@ -16,7 +16,7 @@ export async function  createDBClient(){
   if(!env.MONGO_URL){
     mongoServer = await MongoMemoryServer.create()
     mongo_db_name = `db_${Math.random().toString(36).substring(7)}`;
-    mongo_url = mongoServer.getUri()+`/${mongo_db_name}`
+    mongo_url = mongoServer.getUri()+`  /${mongo_db_name}`
   }else {
     if(!env.MONGO_DB_NAME){
       throw new Error('MONGO_DB_NAME is required when using a real mongodb server (aka when MONGO_URL is defined)');

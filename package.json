@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch --env-file=.env src/index.ts",
     "test": "node --env-file=.env.test  --import tsx --test src/**/*.test.ts",
+    "test:smoke:createuser": "node --env-file=.env.test.smokes  --import tsx --test src/test_e2e/createuser.smoke.test.ts",
     "test:w": "node --env-file=.env.test --import tsx --test --watch  src/**/*.test.ts",
     "build": "tsc"
   },
